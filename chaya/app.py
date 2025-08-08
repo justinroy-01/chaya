@@ -8,6 +8,7 @@ app_data = {
     "temperature": "N/A" 
 }
 data_lock = threading.Lock()
+is_reading = True # NEW: Flag to control the reading loop
 
 # --- Flask App Initialization ---
 app = Flask(__name__)
@@ -15,13 +16,12 @@ app = Flask(__name__)
 # --- Background Thread for Reading Arduino Data ---
 def read_from_arduino():
     """
-    This function is now simplified to handle direct temperature values.
+    This function now checks the 'is_reading' flag before updating the temperature.
     """
-    global app_data
+    global app_data, is_reading
     
     while True:
         try:
-            # Make sure 'COM3' is still the correct port for your Arduino
             arduino = serial.Serial(port='COM3', baudrate=9600, timeout=1)
             print("Arduino connected!")
             break
@@ -30,28 +30,22 @@ def read_from_arduino():
             time.sleep(5)
 
     while True:
-        if arduino.in_waiting > 0:
+        # The loop will only read and update data if is_reading is True
+        if is_reading and arduino.in_waiting > 0:
             try:
-                # 1. Read the raw string from the serial port (e.g., "27.5")
                 raw_data = arduino.readline().decode('utf-8').rstrip()
-                
-                # --- SIMPLIFIED LOGIC ---
-                # 2. Directly convert the raw data string to a number.
                 temp_value = float(raw_data)
-                
-                # 3. Format the number to one decimal place.
                 formatted_temp = f"{temp_value:.1f}"
                 
-                # 4. Update the global variable.
                 with data_lock:
                     app_data["temperature"] = formatted_temp
                 
             except (UnicodeDecodeError, serial.SerialException) as e:
                 print(f"Error reading from Arduino: {e}")
             except ValueError:
-                # This still catches errors if the Arduino sends something non-numeric.
                 print(f"Could not convert data to a number: '{raw_data}'")
-                
+        
+        # We still sleep to prevent the thread from hogging the CPU
         time.sleep(0.1)
 
 
@@ -66,6 +60,14 @@ def get_temp():
         response = jsonify(temperature=app_data["temperature"])
     response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
     return response
+
+# NEW: Route to stop the data reading
+@app.route('/stop', methods=['POST'])
+def stop_reading():
+    global is_reading
+    is_reading = False
+    print("Stopping temperature reading.")
+    return jsonify(status="stopped")
 
 
 # --- Main Execution ---
