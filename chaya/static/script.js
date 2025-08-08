@@ -2,6 +2,7 @@
 const tempValueElement = document.getElementById('temp-value');
 const statusTextElement = document.getElementById('status-text');
 
+
 // Variable to hold our interval timer
 let fetchDataInterval;
 let isStopped = false;
@@ -83,6 +84,8 @@ function stopAll() {
     
     // 3. Update the UI to show the final state
     statusTextElement.innerText = 'Final Reading';
+
+    
 }
 
 // Main Execution on Page Load

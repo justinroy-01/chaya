@@ -191,3 +191,61 @@ h1 {
         font-size: 1.4rem;
     }
 }
+/* New Sections Styling */
+.about-section,
+.tea-guide,
+.chai-quotes {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background: #fff8f0;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(44, 24, 16, 0.1);
+    text-align: center;
+}
+
+.about-section h2,
+.tea-guide h2 {
+    font-size: 1.6rem;
+    margin-bottom: 12px;
+    color: var(--accent-color);
+}
+
+.about-section p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--text-color);
+}
+
+.tea-guide ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 12px;
+}
+
+.tea-guide li {
+    font-size: 1rem;
+    margin: 8px 0;
+    padding: 8px;
+    background: #fff3e0;
+    border-radius: 8px;
+}
+
+.chai-quotes blockquote {
+    font-style: italic;
+    font-size: 1.1rem;
+    color: #6b5b47;
+    margin: 16px 0;
+    padding-left: 16px;
+    border-left: 4px solid var(--accent-color);
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background: #f1e4d3;
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: var(--text-color);
+    border-top: 1px solid var(--border-color);
+}
