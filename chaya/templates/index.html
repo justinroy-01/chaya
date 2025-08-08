@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Live Temperature</title>
+    <style>
+        body { font-family: sans-serif; display: grid; place-content: center; height: 100vh; text-align: center; }
+        #temp-value { font-size: 5rem; font-weight: bold; color: #007BFF; }
+    </style>
+</head>
+<body>
+    <h1>🌡️ Live Temperature</h1>
+    <p><span id="temp-value">--</span> °C</p>
+
+    <script>
+        // This JavaScript doesn't need any changes!
+        setInterval(function() {
+            fetch('/get_temp')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('temp-value').innerText = data.temperature;
+                })
+                .catch(error => console.error('Error:', error));
+        }, 1000); // Fetches every 1 second
+    </script>
+</body>
+</html>
