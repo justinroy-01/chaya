@@ -3,13 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oru Chaya Apaaratha</title>
+    <title>Oru Chaya Apaaratha // Futuristic Edition</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* NEON MUNNAR THEME */
+        :root {
+            --bg-color: #0a021e;
+            --card-bg: rgba(28, 18, 56, 0.6);
+            --text-color: #e0e0e0;
+            --primary-glow: #00f6ff;
+            --secondary-glow: #a64ac9;
+            --border-color: rgba(0, 246, 255, 0.4);
+
+            /* Temperature Colors */
+            --cold-color: #4a90e2;
+            --perfect-color: #27ae60;
+            --hot-color: #e67e22;
+            --very-hot-color: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-color);
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(166, 74, 201, 0.2), transparent 30%),
+                radial-gradient(circle at 85% 30%, rgba(0, 246, 255, 0.2), transparent 35%);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        /* Main Dashboard Card */
+        .dashboard-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 0 25px rgba(0, 246, 255, 0.2), inset 0 0 10px rgba(166, 74, 201, 0.3);
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 10px var(--primary-glow), 0 0 15px var(--primary-glow);
+            letter-spacing: 1px;
+        }
+
+        /* Futuristic Gauge */
+        .gauge-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin: 32px auto;
+        }
+
+        .gauge-background {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 246, 255, 0.1);
+            animation: rotate 20s linear infinite;
+        }
+        
+        .gauge-background::before, .gauge-background::after {
+            content: '';
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .gauge-background::before {
+            width: 80%;
+            height: 80%;
+            border-color: rgba(166, 74, 201, 0.2);
+            animation: rotate 15s linear infinite reverse;
+        }
+
+        .gauge-background::after {
+            width: 60%;
+            height: 60%;
+            border-color: rgba(0, 246, 255, 0.15);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .gauge-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+            background: rgba(10, 2, 30, 0.5);
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            box-shadow: inset 0 0 15px rgba(10, 2, 30, 0.8);
+            border: 1px solid var(--border-color);
+        }
+
+        #temp-value {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 5rem;
+            font-weight: 700;
+            line-height: 1;
+            transition: all 0.5s ease;
+            color: #fff;
+            text-shadow: 0 0 5px #fff, 0 0 15px var(--primary-glow), 0 0 25px var(--primary-glow);
+        }
+
+        .temp-unit {
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--text-color);
+            opacity: 0.7;
+            margin-left: 8px;
+        }
+
+        .status-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-top: 24px;
+            height: 24px;
+            transition: all 0.3s ease;
+            color: var(--primary-glow);
+            text-shadow: 0 0 5px var(--primary-glow);
+        }
+
+        /* Temperature-based color states for the gauge-center container */
+        .gauge-center.temp-cold #temp-value { text-shadow: 0 0 5px #fff, 0 0 15px var(--cold-color), 0 0 25px var(--cold-color); }
+        .gauge-center.temp-perfect #temp-value { text-shadow: 0 0 5px #fff, 0 0 15px var(--perfect-color), 0 0 25px var(--perfect-color); }
+        .gauge-center.temp-hot #temp-value { text-shadow: 0 0 5px #fff, 0 0 15px var(--hot-color), 0 0 25px var(--hot-color); }
+        .gauge-center.temp-very-hot #temp-value { text-shadow: 0 0 5px #fff, 0 0 15px var(--very-hot-color), 0 0 25px var(--very-hot-color); }
+
+        /* Other Sections */
+        .info-section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            margin-top: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 0 15px rgba(0, 246, 255, 0.1);
+        }
+
+        .info-section h2 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.8rem;
+            margin-bottom: 16px;
+            color: var(--secondary-glow);
+            text-shadow: 0 0 8px var(--secondary-glow);
+            text-align: center;
+        }
+
+        .info-section p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        /* Redesigned Tea Guide */
+        .tea-guide-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-top: 16px;
+        }
+        .guide-card {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        .guide-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border-color: var(--primary-glow);
+        }
+        .guide-card .icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .guide-card h3 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        .guide-card p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: var(--text-color);
+        }
+        .guide-card.cold h3 { color: var(--cold-color); }
+        .guide-card.perfect h3 { color: var(--perfect-color); }
+        .guide-card.hot h3 { color: var(--hot-color); }
+
+
+        /* Video Section Styling */
+        .video-container {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 Aspect Ratio */
+            margin-top: 20px;
+            border-radius: 8px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .chai-quotes blockquote {
+            font-style: italic;
+            font-size: 1.1rem;
+            color: #ccc;
+            margin: 20px auto;
+            padding-left: 20px;
+            border-left: 3px solid var(--secondary-glow);
+            max-width: 80%;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.6;
+        }
+
+        @media (max-width: 480px) {
+            h1 { font-size: 2rem; }
+            .dashboard-card { padding: 32px 24px; }
+            .gauge-container { width: 200px; height: 200px; }
+            .gauge-center { width: 160px; height: 160px; }
+            #temp-value { font-size: 4rem; }
+            .temp-unit { font-size: 1.5rem; }
+            .info-section { padding: 20px; }
+            .info-section h2 { font-size: 1.5rem; }
+        }
+    </style>
 </head>
+
 <body>
+    <!-- This is the main dashboard card that displays the temperature -->
     <div class="dashboard-card">
         <h1>ഒരു ചായ അപാരത</h1>
         <div class="gauge-container">
@@ -25,32 +302,156 @@
     </div>
 
     <!-- About Section -->
-    <section class="about-section">
+    <section class="info-section about-section">
         <h2>About Oru Chaya Apaaratha</h2>
-        <p>This is not just a tea — it’s an emotion! We measure your tea’s temperature to make sure every sip is perfect, just the way it’s meant to be in our South Indian tea culture.</p>
+        <p>This is not just tea — it’s a futuristic emotion! We monitor your tea’s temperature with precision, ensuring every sip is perfect, blending tradition with technology.</p>
+    </section>
+    
+    <!-- Video Section -->
+    <section class="info-section video-section">
+        <h2>Our Mission: Empowering Chaya</h2>
+        <div class="video-container">
+            <iframe src="https://streamable.com/e/mkvbyz" frameborder="0" width="100%" height="100%" allowfullscreen></iframe>
+        </div>
     </section>
 
-    <!-- Perfect Tea Guide -->
-    <section class="tea-guide">
-        <h2>Perfect Tea Temperature Guide</h2>
-        <ul>
-            <li>☁️ Below 40°C — Too cold for true chai lovers!</li>
-            <li>💚 50–60°C — Just right for a perfect sip.</li>
-            <li>🔥 Above 70°C — Careful! Too hot to handle.</li>
-        </ul>
+    <!-- Redesigned Tea Guide -->
+    <section class="info-section tea-guide">
+        <h2>Temp Calibration Guide</h2>
+        <div class="tea-guide-grid">
+            <div class="guide-card cold">
+                <div class="icon">☁️</div>
+                <h3>SYSTEM COOL</h3>
+                <p>Below 40°C. Suboptimal sipping temperature. Pre-heating recommended.</p>
+            </div>
+            <div class="guide-card perfect">
+                <div class="icon">💚</div>
+                <h3>OPTIMAL STATE</h3>
+                <p>50–60°C. Perfect tea matrix achieved. Cleared for consumption.</p>
+            </div>
+            <div class="guide-card hot">
+                <div class="icon">🔥</div>
+                <h3>THERMAL SPIKE</h3>
+                <p>Above 70°C. Warning: High heat signature. Proceed with caution.</p>
+            </div>
+        </div>
     </section>
 
     <!-- Fun Chai Quotes -->
-    <section class="chai-quotes">
+    <section class="info-section chai-quotes">
+        <h2>Data Streams</h2>
         <blockquote>“A cup of tea is an excuse to share great moments with friends.”</blockquote>
         <blockquote>“Life is like a cup of tea — it’s all in how you make it.”</blockquote>
     </section>
 
     <!-- Footer -->
     <footer>
-        <p>© 2025 Oru Chaya Apaaratha. Made with ❤️ and chai.</p>
+        <p>© 2025 Oru Chaya Apaaratha. Coded with ❤️ and chai.</p>
     </footer>
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script>
+        // Tea Temperature Dashboard JavaScript
+        const tempValueElement = document.getElementById('temp-value');
+        const statusTextElement = document.getElementById('status-text');
+        const gaugeCenterElement = document.querySelector('.gauge-center'); // Get the gauge-center element
+
+        // Variable to hold our interval timer
+        let fetchDataInterval;
+        let isStopped = false;
+
+        function updateUI(temp) {
+            tempValueElement.innerText = temp;
+            
+            // Remove all temperature classes first from the gauge-center
+            gaugeCenterElement.classList.remove('temp-cold', 'temp-perfect', 'temp-hot', 'temp-very-hot');
+            
+            let status = '';
+            let colorClass = '';
+            
+            // Temperature-based status and color logic
+            if (temp < 50) {
+                status = 'Choodu Kuraiva'; // Less Hot
+                colorClass = 'temp-cold';
+            } else if (temp >= 50 && temp < 75) {
+                status = 'Paakam Choodu'; // Perfect Temperature
+                colorClass = 'temp-perfect';
+            } else if (temp >= 75) {
+                status = 'Nalla Choodu'; // Very Hot
+                colorClass = 'temp-very-hot';
+            }
+            
+            // Apply color class to the gauge-center
+            gaugeCenterElement.classList.add(colorClass);
+            
+            // Only update status text if not stopped
+            if (!isStopped) {
+                statusTextElement.innerText = status;
+            }
+        }
+
+        async function fetchData() {
+            if (isStopped) return; // Don't fetch if stopped
+            try {
+                const response = await fetch('http://127.0.0.1:5000/get_temp');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                const data = await response.json();
+                const temp = parseFloat(data.temperature).toFixed(1); // Format to one decimal place
+                
+                if (!isNaN(temp)) {
+                    updateUI(temp);
+                } else {
+                    if (!isStopped) {
+                        statusTextElement.innerText = 'Waiting for valid data...';
+                    }
+                }
+            } catch (error) {
+                console.error('Error fetching temperature:', error);
+                if (!isStopped) {
+                    statusTextElement.innerText = 'Connection Error';
+                }
+            }
+        }
+
+        // Function to stop everything
+        function stopAll() {
+            console.log("10 seconds are up. Stopping.");
+            isStopped = true;
+            
+            // 1. Stop the frontend from asking for new data
+            if (fetchDataInterval) {
+                clearInterval(fetchDataInterval);
+                fetchDataInterval = null;
+            }
+            
+            // 2. Tell the backend to stop reading from Arduino
+            fetch('http://127.0.0.1:5000/stop', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).catch(error => {
+                console.error('Error sending stop request:', error);
+            });
+            
+            // 3. Update the UI to show the final state
+            statusTextElement.innerText = 'Final Reading';
+        }
+
+        // Main Execution on Page Load
+        window.onload = () => {
+            console.log('Dashboard loaded. Starting temperature monitoring...');
+            
+            // Get the first reading immediately
+            fetchData();
+            
+            // Start the refresh loop every 2 seconds
+            fetchDataInterval = setInterval(fetchData, 2000);
+            
+            // Set a timer to stop everything after 10 seconds
+            setTimeout(stopAll, 10000);
+        };
+    </script>
 </body>
 </html>
