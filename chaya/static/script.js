@@ -16,10 +16,10 @@ function updateUI(temp) {
     let colorClass = '';
     
     // Temperature-based status and color logic
-    if (temp < 60) {
+    if (temp < 50) {
         status = 'Choodu Kuraiva'; // Less Hot
         colorClass = 'temp-cold';
-    } else if (temp >= 60 && temp < 75) {
+    } else if (temp >= 50 && temp < 75) {
         status = 'Paakam Choodu'; // Perfect Temperature
         colorClass = 'temp-perfect';
     } else if (temp >= 75) {

@@ -20,8 +20,9 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #f8f4f0 0%, #e8d5c4 100%);
-    background-attachment: fixed;
+    background: linear-gradient(270deg, #d4bfa4, #c49e7f, #a67c52, #8d5f34);
+    background-size: 800% 800%;
+    animation: gradientShift 20s ease infinite;
     display: grid;
     place-items: center;
     min-height: 100vh;
@@ -29,20 +30,12 @@ body {
     position: relative;
 }
 
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: 
-        radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(230, 126, 34, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 40%, rgba(44, 24, 16, 0.05) 0%, transparent 50%);
-    pointer-events: none;
-    z-index: -1;
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
 }
+
 
 .dashboard-card {
     background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
