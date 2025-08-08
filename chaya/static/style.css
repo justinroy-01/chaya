@@ -1,0 +1,200 @@
+/* South Indian Tea Shop Theme */
+:root {
+    --bg-color: #f8f4f0;
+    --card-bg: #ffffff;
+    --text-color: #2c1810;
+    --shadow-color: rgba(44, 24, 16, 0.1);
+    --border-color: #e8d5c4;
+    --cold-color: #4a90e2;
+    --perfect-color: #27ae60;
+    --hot-color: #e67e22;
+    --very-hot-color: #c0392b;
+    --accent-color: #d35400;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f8f4f0 0%, #e8d5c4 100%);
+    background-attachment: fixed;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    color: var(--text-color);
+    position: relative;
+}
+
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(230, 126, 34, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(44, 24, 16, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: -1;
+}
+
+.dashboard-card {
+    background: linear-gradient(145deg, #ffffff 0%, #fefefe 100%);
+    border-radius: 24px;
+    box-shadow: 
+        0 20px 40px var(--shadow-color),
+        0 8px 16px rgba(44, 24, 16, 0.05),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    padding: 48px;
+    width: 380px;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.dashboard-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--accent-color), #e67e22, var(--accent-color));
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+}
+
+h1 {
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 32px;
+    color: var(--text-color);
+    text-shadow: 0 2px 4px rgba(44, 24, 16, 0.1);
+    letter-spacing: -0.5px;
+}
+
+.gauge-container {
+    position: relative;
+    width: 240px;
+    height: 240px;
+    margin: 32px auto;
+}
+
+.gauge-background {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--cold-color) 0deg 90deg,
+        var(--perfect-color) 90deg 180deg,
+        var(--hot-color) 180deg 270deg,
+        var(--very-hot-color) 270deg 360deg
+    );
+    filter: blur(12px) opacity(0.4);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; }
+    50% { opacity: 0.6; }
+}
+
+.gauge-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 180px;
+    height: 180px;
+    background: linear-gradient(145deg, #ffffff, #f8f4f0);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    box-shadow: 
+        inset 0 4px 8px rgba(44, 24, 16, 0.1),
+        0 8px 16px rgba(44, 24, 16, 0.1);
+    border: 2px solid var(--border-color);
+}
+
+#temp-value {
+    font-size: 4.5rem;
+    font-weight: 700;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    line-height: 1;
+    display: inline-block;
+}
+
+.temp-unit {
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: #8b7355;
+    margin-left: 4px;
+}
+
+.status-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin-top: 24px;
+    height: 24px;
+    transition: all 0.3s ease;
+    color: #6b5b47;
+}
+
+/* Temperature-based color states */
+.temp-cold {
+    color: var(--cold-color) !important;
+}
+
+.temp-perfect {
+    color: var(--perfect-color) !important;
+}
+
+.temp-hot {
+    color: var(--hot-color) !important;
+}
+
+.temp-very-hot {
+    color: var(--very-hot-color) !important;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    .dashboard-card {
+        width: 320px;
+        padding: 32px 24px;
+    }
+    
+    h1 {
+        font-size: 1.6rem;
+    }
+    
+    .gauge-container {
+        width: 200px;
+        height: 200px;
+    }
+    
+    .gauge-center {
+        width: 150px;
+        height: 150px;
+    }
+    
+    #temp-value {
+        font-size: 3.5rem;
+    }
+    
+    .temp-unit {
+        font-size: 1.4rem;
+    }
+}

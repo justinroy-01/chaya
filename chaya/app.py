@@ -2,6 +2,7 @@ from flask import Flask, render_template, jsonify
 import serial
 import threading
 import time
+import os 
 
 # --- Global Variables ---
 app_data = {
@@ -72,6 +73,7 @@ def stop_reading():
 
 # --- Main Execution ---
 if __name__ == '__main__':
-    arduino_thread = threading.Thread(target=read_from_arduino, daemon=True)
-    arduino_thread.start()
-    app.run(debug=True, use_reloader=False)
+    if not os.getenv('VERCEL_ENV'):
+        arduino_thread = threading.Thread(target=read_from_arduino, daemon=True)
+        arduino_thread.start()
+        app.run(debug=True, use_reloader=False)
