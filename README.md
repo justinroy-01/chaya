@@ -88,7 +88,8 @@ The "Oru Chaya Apaaratha" project operates as a full-stack IoT system, beginning
 ### Project Demo
 # Video
 [Software deployment](https://drive.google.com/file/d/1TNzKh5TgT4OSgnkRx1XR9-0rlcyuwDVO/view?usp=sharing)
-It is a walkthrough of the front end part of the 
+[live walkthrough](https://drive.google.com/file/d/13KrJmtzMdqwpTcchW2wANFsj3l_iKLo_/view?usp=sharing)
+It is a walkthrough of the front end part of the web we created.
 
 # Additional Demos
 [Hosted Live at vercel](https://chaya-sable.vercel.app/)
