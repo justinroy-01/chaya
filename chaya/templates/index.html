@@ -7,6 +7,13 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+    
+    <!-- =================================================================== -->
+    <!-- AUDIO FILES (NOW USING PUBLIC URLS FOR RELIABLE PLAYBACK)         -->
+    <!-- =================================================================== -->
+    <audio id="audio-cold" src="https://res.cloudinary.com/dow1o7hdg/video/upload/v1754698385/cold-alert_rqlnkf.mp3" preload="auto"></audio>
+    <audio id="audio-perfect" src="https://res.cloudinary.com/dow1o7hdg/video/upload/v1754698440/perfect-tone_dsclxs.mp3" preload="auto"></audio>
+    <audio id="audio-hot" src="https://res.cloudinary.com/dow1o7hdg/video/upload/v1754698488/hot-warning_yljx9i.mp3" preload="auto"></audio>
 
     <style>
         /* NEON MUNNAR THEME */
@@ -74,6 +81,31 @@
             color: #fff;
             text-shadow: 0 0 5px #fff, 0 0 10px var(--primary-glow), 0 0 15px var(--primary-glow);
             letter-spacing: 1px;
+        }
+
+        /* NEW Styling for the Start Button with a Modern, Glowing Vibe */
+        #start-button {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-glow); /* Glowing cyan text */
+            background: transparent;
+            border: 2px solid var(--border-color); /* Glowing cyan border */
+            border-radius: 12px;
+            padding: 16px 32px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 8px var(--primary-glow); /* Text glow effect */
+            box-shadow: 0 0 10px rgba(0, 246, 255, 0.3); /* Faint outer glow */
+            transition: all 0.3s ease;
+            margin: 80px 0; /* Keeps it centered vertically */
+        }
+
+        #start-button:hover {
+            background: rgba(0, 246, 255, 0.1); /* Light up on hover */
+            color: #ffffff;
+            box-shadow: 0 0 20px var(--primary-glow), inset 0 0 10px rgba(0, 246, 255, 0.2); /* Stronger glow on hover */
         }
 
         /* Futuristic Gauge */
@@ -233,7 +265,7 @@
             font-family: 'Rajdhani', sans-serif;
             font-size: 1.5rem;
             margin-bottom: 8px;
-            color: #fff;
+            color: var(--text-color);
         }
         .carousel-slide p {
             font-size: 1rem;
@@ -321,12 +353,16 @@
         }
     </style>
 </head>
-
 <body>
-    <!-- This is the main dashboard card that displays the temperature -->
+    <!-- Main dashboard card where all the action happens -->
     <div class="dashboard-card">
         <h1>ഒരു ചായ അപാരത</h1>
-        <div class="gauge-container">
+
+        <!-- The button to start the process -->
+        <button id="start-button">Start Monitoring</button>
+        
+        <!-- The gauge is hidden by default and shown by JS after the button click -->
+        <div class="gauge-container" style="display: none;">
             <div class="gauge-background"></div>
             <div class="gauge-center">
                 <div>
@@ -335,7 +371,8 @@
                 </div>
             </div>
         </div>
-        <p class="status-text" id="status-text">Connecting...</p>
+        
+        <p class="status-text" id="status-text">Click 'Start' to begin</p>
     </div>
 
     <!-- About Section -->
@@ -391,64 +428,109 @@
     </footer>
 
     <!-- ====================================================== -->
-    <!-- SCRIPT FOR BACKEND COMMUNICATION (DO NOT EDIT)         -->
+    <!-- SCRIPT FOR BACKEND COMMUNICATION AND AUDIO (FINAL)     -->
     <!-- ====================================================== -->
-    <script>
-        // Tea Temperature Dashboard JavaScript
+   <script>
+        // Get all necessary elements from the page
         const tempValueElement = document.getElementById('temp-value');
         const statusTextElement = document.getElementById('status-text');
-        const gaugeCenterElement = document.querySelector('.gauge-center'); // Get the gauge-center element
+        const gaugeCenterElement = document.querySelector('.gauge-center');
+        const audioCold = document.getElementById('audio-cold');
+        const audioPerfect = document.getElementById('audio-perfect');
+        const audioHot = document.getElementById('audio-hot');
 
-        // Variable to hold our interval timer
+        // Get the button and gauge container elements
+        const startButton = document.getElementById('start-button');
+        const gaugeContainer = document.querySelector('.gauge-container');
+
+        let lastPlayedStatus = null;
         let fetchDataInterval;
         let isStopped = false;
 
+        // The main function that starts the monitoring process
+        function startMonitoring() {
+            // Hide the button and show the gauge
+            startButton.style.display = 'none';
+            gaugeContainer.style.display = 'block';
+            statusTextElement.innerText = 'Connecting...';
+
+            // Get the first reading immediately
+            fetchData();
+
+            // Start the refresh loop every 2 seconds
+            fetchDataInterval = setInterval(fetchData, 2000);
+
+            // Set a timer to stop everything after 10 seconds
+            setTimeout(stopAll, 10000);
+        }
+
+        // Add a click event listener to the start button
+        startButton.addEventListener('click', () => {
+            // This user interaction gives the browser permission to play audio.
+            startMonitoring();
+        });
+
+
         function updateUI(temp) {
             tempValueElement.innerText = temp;
-            
-            // Remove all temperature classes first from the gauge-center
             gaugeCenterElement.classList.remove('temp-cold', 'temp-perfect', 'temp-hot', 'temp-very-hot');
-            
             let status = '';
             let colorClass = '';
-            
-            // Temperature-based status and color logic
+            let currentStatusKey = '';
+
             if (temp < 50) {
-                status = 'Choodu Kuraiva'; // Less Hot
+                status = 'Choodu Kuraiva';
                 colorClass = 'temp-cold';
+                currentStatusKey = 'cold';
             } else if (temp >= 50 && temp < 75) {
-                status = 'Paakam Choodu'; // Perfect Temperature
+                status = 'Paakam Choodu';
                 colorClass = 'temp-perfect';
+                currentStatusKey = 'perfect';
             } else if (temp >= 75) {
-                status = 'Nalla Choodu'; // Very Hot
+                status = 'Nalla Choodu';
                 colorClass = 'temp-very-hot';
+                currentStatusKey = 'hot';
             }
             
-            // Apply color class to the gauge-center
-            gaugeCenterElement.classList.add(colorClass);
+            // Play audio only when the status changes and the process hasn't been stopped
+            if (currentStatusKey && currentStatusKey !== lastPlayedStatus && !isStopped) {
+                // Stop any currently playing sounds and reset their time
+                audioCold.pause();
+                audioPerfect.pause();
+                audioHot.pause();
+                audioCold.currentTime = 0;
+                audioPerfect.currentTime = 0;
+                audioHot.currentTime = 0;
+
+                // Play the correct sound and catch any potential errors
+                if (currentStatusKey === 'cold') {
+                    audioCold.play().catch(e => console.error("Audio play failed:", e));
+                } else if (currentStatusKey === 'perfect') {
+                    audioPerfect.play().catch(e => console.error("Audio play failed:", e));
+                } else if (currentStatusKey === 'hot') {
+                    audioHot.play().catch(e => console.error("Audio play failed:", e));
+                }
+                
+                lastPlayedStatus = currentStatusKey; // Update the status to prevent re-playing
+            }
             
-            // Only update status text if not stopped
+            gaugeCenterElement.classList.add(colorClass);
             if (!isStopped) {
                 statusTextElement.innerText = status;
             }
         }
 
         async function fetchData() {
-            if (isStopped) return; // Don't fetch if stopped
+            if (isStopped) return;
             try {
                 const response = await fetch('http://127.0.0.1:5000/get_temp');
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 const data = await response.json();
-                const temp = parseFloat(data.temperature).toFixed(1); // Format to one decimal place
-                
+                const temp = parseFloat(data.temperature).toFixed(1);
                 if (!isNaN(temp)) {
                     updateUI(temp);
-                } else {
-                    if (!isStopped) {
-                        statusTextElement.innerText = 'Waiting for valid data...';
-                    }
+                } else if (!isStopped) {
+                    statusTextElement.innerText = 'Waiting for valid data...';
                 }
             } catch (error) {
                 console.error('Error fetching temperature:', error);
@@ -458,48 +540,25 @@
             }
         }
 
-        // Function to stop everything
         function stopAll() {
             console.log("10 seconds are up. Stopping.");
             isStopped = true;
-            
-            // 1. Stop the frontend from asking for new data
             if (fetchDataInterval) {
                 clearInterval(fetchDataInterval);
-                fetchDataInterval = null;
             }
+            fetchDataInterval = null;
             
-            // 2. Tell the backend to stop reading from Arduino
-            fetch('http://127.0.0.1:5000/stop', { 
+            fetch('http://127.0.0.1:5000/stop', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).catch(error => {
-                console.error('Error sending stop request:', error);
-            });
+                headers: { 'Content-Type': 'application/json' }
+            }).catch(error => console.error('Error sending stop request:', error));
             
-            // 3. Update the UI to show the final state
             statusTextElement.innerText = 'Final Reading';
         }
-
-        // Main Execution on Page Load
-        window.onload = () => {
-            console.log('Dashboard loaded. Starting temperature monitoring...');
-            
-            // Get the first reading immediately
-            fetchData();
-            
-            // Start the refresh loop every 2 seconds
-            fetchDataInterval = setInterval(fetchData, 2000);
-            
-            // Set a timer to stop everything after 10 seconds
-            setTimeout(stopAll, 10000);
-        };
     </script>
 
     <!-- ====================================================== -->
-    <!-- NEW SCRIPT FOR VISUAL ANIMATIONS (SAFE TO EDIT)        -->
+    <!-- SCRIPT FOR VISUAL ANIMATIONS (SAFE TO EDIT)            -->
     <!-- ====================================================== -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
