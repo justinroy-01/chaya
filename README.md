@@ -31,8 +31,7 @@ For Software:
 
 For Hardware:
 - Arduino UNO,NTC-Thermistor Module,
-- List specifications
-- List tools required
+
 
 ### Implementation
 For Software:
