@@ -393,11 +393,11 @@
                     </div>
                     <div class="carousel-slide perfect">
                         <h3>Ugran Chaya</h3>
-                        <p>45-75°C. The perfect balance of heat and flavor. The ideal moment.</p>
+                        <p>45-65°C. The perfect balance of heat and flavor. The ideal moment.</p>
                     </div>
                     <div class="carousel-slide hot">
                         <h3>Pollikkuvo!</h3>
-                        <p>Above 75°C. Dangerously hot! Let it cool down before you get burned.</p>
+                        <p>Above 65°C. Dangerously hot! Let it cool down before you get burned.</p>
                     </div>
                 </div>
             </div>
@@ -410,8 +410,14 @@
     <section class="info-section video-section">
         <h2>Our Mission: A Voice for Chaya</h2>
         <div class="video-container">
-            <iframe src="https://streamable.com/e/mkvbyz" frameborder="0" width="100%" height="100%" allowfullscreen></iframe>
-        </div>
+<iframe 
+    src="https://player.vimeo.com/video/1108588741?autoplay=1&muted=1&title=0&byline=0&portrait=0" 
+    width="640" 
+    height="360" 
+    frameborder="0" 
+    allow="autoplay; fullscreen; picture-in-picture" 
+    allowfullscreen>
+</iframe>        </div>
         <p>Every cup of tea holds a story, often an unsung one of being served too hot or too cold. Our mission is to change that narrative. By giving 'Chaya' a voice through technology, we ensure it's always experienced at its absolute best, empowering a simple drink to deliver a perfect moment, every time.</p>
     </section>
 
@@ -472,18 +478,18 @@
 
 
         function updateUI(temp) {
-            tempValueElement.innerText = temp-5;
+            tempValueElement.innerText = temp-1;
             gaugeCenterElement.classList.remove('temp-cold', 'temp-perfect', 'temp-hot', 'temp-very-hot');
             let status = '';
             let colorClass = '';
             let currentStatusKey = '';
 
             // *** TEMPERATURE RANGES ARE ADJUSTED HERE ***
-            if (temp < 40) { // Changed from 50
+            if (temp < 45) { // Changed from 50
                 status = 'Choodu Kuraiva';
                 colorClass = 'temp-cold';
                 currentStatusKey = 'cold';
-            } else if (temp >= 40 && temp < 65) { // Changed from 50
+            } else if (temp >= 45 && temp < 65) { // Changed from 50
                 status = 'Paakam Choodu';
                 colorClass = 'temp-perfect';
                 currentStatusKey = 'perfect';
