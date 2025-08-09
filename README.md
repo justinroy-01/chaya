@@ -37,6 +37,7 @@ For Hardware:
 For Software:
 # Installation
 pip install flask pyserial
+
 npm install
 
 # Run
