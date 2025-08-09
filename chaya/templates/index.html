@@ -227,8 +227,8 @@
             font-family: 'Rajdhani', sans-serif;
             font-size: 1.8rem;
             margin-bottom: 16px;
-            color: var(--secondary-glow);
-            text-shadow: 0 0 8px var(--secondary-glow);
+            color: var(--primary-glow); /* EDITED: Changed from secondary-glow */
+            text-shadow: 0 0 8px var(--primary-glow); /* EDITED: Changed from secondary-glow */
             text-align: center;
         }
 
@@ -272,9 +272,9 @@
             line-height: 1.5;
             color: var(--text-color);
         }
-        .carousel-slide.cold h3 { color: var(--secondary-glow); }
-        .carousel-slide.perfect h3 { color: var(--secondary-glow); }
-        .carousel-slide.hot h3 { color: var(--secondary-glow); }
+        .carousel-slide.cold h3 { color: var(--primary-glow); } /* EDITED: Changed from secondary-glow */
+        .carousel-slide.perfect h3 { color: var(--primary-glow); } /* EDITED: Changed from secondary-glow */
+        .carousel-slide.hot h3 { color: var(--primary-glow); } /* EDITED: Changed from secondary-glow */
 
         .carousel-button {
             position: absolute;
@@ -325,7 +325,7 @@
             color: #ccc;
             margin: 20px auto;
             padding-left: 20px;
-            border-left: 3px solid var(--secondary-glow);
+            border-left: 3px solid var(--primary-glow); /* EDITED: Changed from secondary-glow */
             max-width: 80%;
         }
 
@@ -377,26 +377,26 @@
 
     <!-- About Section -->
     <section class="info-section about-section">
-        <h2>ഒരു ചായ അപാരത</h2>
-        <p>ഇതൊരു ചായ മാത്രമല്ല, ഇതൊരു വികാരമാണ്! ഓരോ സിപ്പും മികച്ചതാണെന്ന് ഉറപ്പാക്കാൻ, പാരമ്പര്യവും സാങ്കേതികവിദ്യയും സമന്വയിപ്പിച്ച് ഞങ്ങൾ നിങ്ങളുടെ ചായയുടെ താപനില കൃത്യമായി നിരീക്ഷിക്കുന്നു.</p>
+        <h2>Oru Chaya Apaaratha</h2>
+        <p>Ithoru chaya maathramalla, ithoru vikaaramaanu! Oro sippum mikachathaanennu urappaakkaan, paaramparyavum saankethikavidyayum samanvayippichu njangal ningalude chaayayude thaapanila krithyamaayi nireekshikkunnu.</p>
     </section>
     
     <!-- Redesigned Carousel Tea Guide -->
     <section class="info-section tea-guide">
-        <h2>ചായയുടെ അവസ്ഥ</h2>
+        <h2>Chayayude Avastha</h2>
         <div class="carousel-container">
             <div class="carousel-track-container">
                 <div class="carousel-track">
                     <div class="carousel-slide cold">
-                        <h3>പച്ച വെള്ളം</h3>
-                        <p>Below 50°C. The tea is too cold. A true insult to chai lovers.</p>
+                        <h3>Pacha Vellam</h3>
+                        <p>Below 45°C. The tea is too cold. A true insult to chai lovers.</p>
                     </div>
                     <div class="carousel-slide perfect">
-                        <h3>ഉഗ്രൻ ചായ</h3>
-                        <p>50-75°C. The perfect balance of heat and flavor. The ideal moment.</p>
+                        <h3>Ugran Chaya</h3>
+                        <p>45-75°C. The perfect balance of heat and flavor. The ideal moment.</p>
                     </div>
                     <div class="carousel-slide hot">
-                        <h3>പൊള്ളിക്കുവോ!</h3>
+                        <h3>Pollikkuvo!</h3>
                         <p>Above 75°C. Dangerously hot! Let it cool down before you get burned.</p>
                     </div>
                 </div>
@@ -472,21 +472,22 @@
 
 
         function updateUI(temp) {
-            tempValueElement.innerText = temp;
+            tempValueElement.innerText = temp-5;
             gaugeCenterElement.classList.remove('temp-cold', 'temp-perfect', 'temp-hot', 'temp-very-hot');
             let status = '';
             let colorClass = '';
             let currentStatusKey = '';
 
-            if (temp < 50) {
+            // *** TEMPERATURE RANGES ARE ADJUSTED HERE ***
+            if (temp < 40) { // Changed from 50
                 status = 'Choodu Kuraiva';
                 colorClass = 'temp-cold';
                 currentStatusKey = 'cold';
-            } else if (temp >= 50 && temp < 75) {
+            } else if (temp >= 40 && temp < 65) { // Changed from 50
                 status = 'Paakam Choodu';
                 colorClass = 'temp-perfect';
                 currentStatusKey = 'perfect';
-            } else if (temp >= 75) {
+            } else if (temp >= 65) {
                 status = 'Nalla Choodu';
                 colorClass = 'temp-very-hot';
                 currentStatusKey = 'hot';
