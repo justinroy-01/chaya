@@ -1,0 +1,43 @@
+void setup() {
+  Serial.begin(9600);
+}
+
+void loop() {
+  int analogValue = analogRead(A0);
+  float temperature = estimateTemperature(analogValue);
+
+  Serial.println(temperature); // send to backend
+  delay(1000);
+}
+
+float estimateTemperature(int value) {
+  // Piecewise linear mapping based on your dataset
+  if (value >= 130 && value <= 134) return 0;        // Ice cold
+  else if (value >= 73 && value <= 74) return 30;
+  else if (value >= 77 && value <= 79) return 28;
+  else if (value >= 68 && value <= 70) return 35.5;
+  else if (value >= 62 && value <= 63) return 35;
+  else if (value >= 58 && value <= 60) return 38;     // Slight warm, approx
+  else if (value >= 57 && value <= 58) return 40.8;
+  else if (value >= 48 && value <= 51) return 43;     // >42.6, approx
+  else if (value >= 23 && value <= 25) return 68;
+  else if (value >= 20 && value <= 21) return 85;
+
+  // Interpolation for unknown values
+  if (value > 134) return 0;
+  if (value < 20) return 90;
+
+  // Fallback linear interpolation between known points
+  return mapValueToTemp(value);
+}
+
+float mapValueToTemp(int value) {
+  // Simple linear mapping between two known ranges (you can refine this)
+  // Example: map from (79, 20) → (28°C, 85°C)
+  return mapf(value, 79, 20, 28, 85);
+}
+
+// Custom float version of map()
+float mapf(float x, float in_min, float in_max, float out_min, float out_max) {
+  return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}

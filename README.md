@@ -1,96 +1,102 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
+# ഒരു ചായ അപാരത🎯
 
 
 ## Basic Details
-### Team Name: [Name]
+### Team Name: [NeuroNet]
 
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Team Lead: Justin Roy - College Of Engineering, Perumon
+- Member 2: Hanna A - College Of Engineering, Perumon
+
 
 ### Project Description
-[2-3 lines about what your project does]
+This IoT system measures a beverage's temperature using an Arduino-interfaced thermistor. A Python Flask server processes and provides this data via a JSON API. A web front-end consumes this API to deliver real-time visual and auditory feedback on the beverage's thermal state.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+Too often, the love for tea is marred by a common dilemma: either scalding your throat on a cup that's too hot or waiting too long only to be met with a cold, disappointing drink. That is precisely where our project steps in. It eliminates this guesswork, guiding you to that ideal window of time to enjoy the perfect sip, every time.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+Our system constantly checks your tea's temperature to tell you the precise moment it's perfect to drink. It eliminates the guesswork, so you no longer have to worry about burning your mouth or drinking it cold.
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- Programming languages :Python,JavaScript,HTML,CSS,Arduino Programming language
+- Libraries:Flask,time,serial,threading,os
+- Tools:Vs Code,Arduino IDE,vimeo,cloudinary,postimages,chatgpt,gemini2.5 pro, cursor AI
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- Arduino UNO,NTC-Thermistor Module,
+- List specifications
+- List tools required
 
 ### Implementation
 For Software:
 # Installation
-[commands]
+pip install flask pyserial
+npm install
 
 # Run
-[commands]
+python app.py
 
 ### Project Documentation
 For Software:
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](./screenshots/Screenshot%20(50).png)
+*Shows the final reading of the NTC thermistor module retrieved from the backend*
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](./screenshots/Screenshot%20(52).png)
+*An informative carousel tells the perfect time to drink chai*
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3](./screenshots/Screenshot%20(53).png)
+*A small video dedicated to empowering chai and emphasizing its ambit*
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Workflow](./screenshots/workflow.png)
+*The arduino uno reads the code from IDE then the analog values is passed to Arduino IDE which is converted to temperature (+_5 accuracy) this is passed to python flask which in turn is fetched by javascript in front end, javascript regularly checks python for temperature reading and thus give a live reading experience *
 
 For Hardware:
 
 # Schematic & Circuit
-![Circuit](Add your circuit diagram here)
-*Add caption explaining connections*
+![Circuit](./screenshots/diagram.jpg)
+*The VCC part of the NTC Thermistor Module is connected to 5v of Arduino,
+The GND is connected to GND of the Arduino UNO,
+The A0 (out) is connected to A0 of Arduino through which Analog values is read*
 
-![Schematic](Add your schematic diagram here)
-*Add caption explaining the schematic*
+![Schematic](./screenshots/schematic.jpg)
+*VCC Connects to the 5v side of Arduino*
+*GND connects to GND of Arduino UNO*
+*A0 of NTC connected to A0 of Arduino UNO.*
 
 # Build Photos
-![Components](Add photo of your components here)
-*List out all components shown*
+![Components](./screenshots/components.jpg)
+*Jumper wires,Arduino UNO,Connecting cable, NTC Thermistor Module*
 
-![Build](Add photos of build process here)
-*Explain the build steps*
+![Build](./screenshots/build.jpg)
+*VCC Connects to the 5v side of Arduino*
+*GND connects to GND of Arduino UNO*
+*A0 of NTC connected to A0 of Arduino UNO.*
+*The power and data cable is connected to laptop and Arduino board*
 
-![Final](Add photo of final product here)
-*Explain the final build*
+![Final](./screenshots/final.jpg)
+The "Oru Chaya Apaaratha" project operates as a full-stack IoT system, beginning with an Arduino Uno and an NTC thermistor module that capture real-world temperature data. Code uploaded via the Arduino IDE converts this analog signal into a Celsius value, which is then sent continuously over a serial connection to a Python Flask backend. This backend application acts as a middleman, listening for the serial data and exposing it through a simple JSON API endpoint. The user interacts with a dynamic front-end, built with HTML, CSS, and JavaScript, which is deployed and hosted globally on Vercel. This web interface periodically fetches the temperature from the Flask API, updating the on-screen gauge and triggering corresponding audio alerts to create a responsive and engaging user experience.
 
 ### Project Demo
 # Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
+[Software deployment](https://drive.google.com/file/d/1TNzKh5TgT4OSgnkRx1XR9-0rlcyuwDVO/view?usp=sharing)
+It is a walkthrough of the front end part of the 
 
 # Additional Demos
-[Add any extra demo materials/links]
+[Hosted Live at vercel](https://chaya-sable.vercel.app/)
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Justin Roy: Backend using python, circuit design
+- Hanna A: Front-end development,Storyboard video.
 
 ---
 Made with ❤️ at TinkerHub Useless Projects 
