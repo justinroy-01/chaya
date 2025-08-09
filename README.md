@@ -31,7 +31,7 @@ For Software:
 
 For Hardware:
 - Arduino UNO,NTC-Thermistor Module,
-
+-10k ohm NTC 3362 , F-M jumper cables,USB-A to USB-B cable
 
 ### Implementation
 For Software:
