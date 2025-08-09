@@ -35,19 +35,20 @@ For Hardware:
 
 ### Implementation
 For Software:
+
 *Arduino IDE: The embedded software was developed using the Arduino IDE in C++. The program's primary functions are to read the analog voltage from the NTC thermistor module, convert this raw data into a precise temperature reading in Celsius, and continuously transmit this value to a computer via the serial (USB) port.*
 
-*Python Backend (Flask): A lightweight backend was created using the Flask web framework in Python. This server application has two main responsibilities:
+*Python Backend (Flask): A lightweight backend was created using the Flask web framework in Python. This server application has two main responsibilities:*
 
-It uses the pySerial library to listen to the serial port and capture the incoming temperature data from the Arduino.
+  *It uses the pySerial library to listen to the serial port and capture the incoming temperature data from the Arduino.*
 
-It establishes a simple API endpoint that, when accessed, serves the latest temperature reading in a structured JSON format, making it easily accessible for any web client.*
+  *It establishes a simple API endpoint that, when accessed, serves the latest temperature reading in a structured JSON format, making it easily accessible for any web client.*
 
-*Frontend Web Interface (HTML/CSS/JS): The user interface is a modern, single-page web application built with standard web technologies:
+*Frontend Web Interface (HTML/CSS/JS): The user interface is a modern, single-page web application built with standard web technologies:*
 
-HTML was used to define the structure of the dashboard, including the gauge, information sections, and audio elements.
+  *HTML was used to define the structure of the dashboard, including the gauge, information sections, and audio elements.*
 
-CSS provides the "Neon Munnar" futuristic styling, responsive layout, and visual feedback elements like color changes and animations.*
+  *CSS provides the "Neon Munnar" futuristic styling, responsive layout, and visual feedback elements like color changes and animations.*
 
 *JavaScript handles all the dynamic functionality. It sends periodic fetch requests to the Python backend to get the live temperature, updates the UI in real-time, and triggers the appropriate audio alerts based on the predefined temperature ranges (cold, perfect, or hot).*
 # Installation
